@@ -1,0 +1,9 @@
+# env
+.env
+
+# deps
+node_modules/
+
+# generated file
+prisma/dbml/
+prisma/generated/zod/

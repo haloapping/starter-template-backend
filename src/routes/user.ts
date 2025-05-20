@@ -161,11 +161,7 @@ userRoutes.openapi(
   }),
   async (c) => {
     try {
-      const users = await prisma.user.findMany({
-        include: {
-          posts: true,
-        },
-      });
+      const users = await prisma.user.findMany();
 
       return c.json(users, 200);
     } catch (error) {

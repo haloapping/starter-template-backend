@@ -15,6 +15,9 @@
     "db:reset": "prisma migrate reset --force",
     "docker:up": "docker-compose up -d"
   },
+  "prisma": {
+    "seed": "bun prisma/seed.ts"
+  },
   "dependencies": {
     "@hono/zod-openapi": "^0.19.6",
     "@prisma/client": "^6.8.2",
@@ -24,11 +27,12 @@
     "prisma": "^6.8.2",
     "prisma-dbml-generator": "^0.12.0",
     "slugify": "^1.6.6",
-    "zod": "^3.24.4",
+    "zod": "^3.25.7",
     "zod-prisma-types": "^3.2.4"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "@faker-js/faker": "^9.8.0",
     "@types/bun": "latest"
   }
 }

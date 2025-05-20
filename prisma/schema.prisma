@@ -1,24 +1,48 @@
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
+    provider        = "prisma-client-js"
+    previewFeatures = ["driverAdapters", "relationJoins"]
 }
 
 generator dbml {
-  provider = "prisma-dbml-generator"
+    provider = "prisma-dbml-generator"
+    output   = "generated/dbml"
 }
 
 generator zod {
-  provider = "zod-prisma-types"
+    provider = "zod-prisma-types"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 model User {
-  id        Int      @id
-  username  String   @unique
-  createdAt DateTime
-  updatedAt DateTime @updatedAt
+    id        String   @id @default(ulid())
+    username  String   @unique
+    email     String   @unique
+    password  String   @db.VarChar(128)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    posts     Post[]
+}
+
+model Post {
+    id        String    @id @default(ulid())
+    userId    String?
+    User      User?     @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    comments  Comment[]
+    slug      String    @unique
+    title     String    @unique
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+}
+
+model Comment {
+    id        String   @id @default(ulid())
+    postId    String?
+    post      Post?    @relation(fields: [postId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    text      String   @db.Text
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
